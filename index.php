@@ -1,7 +1,7 @@
 <?php
 error_reporting('E_ALL');
 date_default_timezone_set("UTC");
-session_start();
+//session_start();
 
 $template = __DIR__ . '/template/software-developer.html';
 

@@ -1,3 +1,6 @@
+# Crear la base de datos en Sqlite 3
+# nombre de la base de datos hiring.sdb 
+
 CREATE TABLE person(
 id integer primary key,
 name char(128),
