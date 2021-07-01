@@ -1,7 +1,10 @@
 <?php
-error_reporting('E_ALL');
+error_reporting(0); //E_ALL
 date_default_timezone_set("UTC");
 //session_start();
+header("Cache-Control: private, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // A date in the past
 
 $template = __DIR__ . '/template/software-developer.html';
 
