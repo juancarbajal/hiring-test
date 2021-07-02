@@ -26,6 +26,17 @@ function denied(){
 }
 
 /**
+ * Muestra un template
+ * @param $filename string nombre del archivo  
+ * @param $print boolean Imprimir
+ * */
+function showTemplate($filename, $print = true){
+    $html = file_get_contents($filename);
+    if ($print) echo $html;
+    return $html;
+}
+
+/**
  * Clase para gestionar los postulantes y sus respuestas
  * */
 class HiringDatabase {
@@ -38,7 +49,6 @@ class HiringDatabase {
     function updatePersona($idPersona, $data){
         $startTime = $data['start_time'];
         $endTime = $data['end_time'];
-        //$response = SQLite3::escapeString($data['response']);
         $response = base64_encode($data['response']);
         $id = $data['id'];
         $personId = $data['person_id'];
@@ -61,13 +71,10 @@ $hdb = new HiringDatabase();
 if (isset($_GET['t'])) {
     $t = (int) $_REQUEST['t']; //por si acaso nos hacen sqli injection
     $v = $hdb->getPersona($t);
-    //$v = validateToken($t);
     if (count($v) == 0) denied();
     else {
         if (isset($v['response']) && ($v['response'] != '')){ //ya envío los resultados
-            /*$html = file_get_contents(__DIR__ . '/template/repeat.html');
-            echo $html;*/
-            header('Location: repeat.html');
+            showTemplate(__DIR__ . '/template/repeat.html');
         } else {
             if (!isset($v['start_time'])){
                 $startTime=time();
@@ -75,7 +82,7 @@ if (isset($_GET['t'])) {
                 $hdb->updatePersona($t, $v);
             } else
                 $startTime = $v['start_time'];
-            $html = file_get_contents($template);
+            $html = showTemplate($template, false);
             $html = str_replace('{{token}}', $t, $html);
             $html = str_replace('{{name}}', $v['name'], $html);
             $html = str_replace('{{email}}', $v['email'], $html);
@@ -95,9 +102,7 @@ if (isset($_GET['t'])) {
             $v['response'] = json_encode($postData);
             $v['end_time'] = time();
             $hdb->updatePersona($t, $v);
-            /*$final = file_get_contents(__DIR__ . '/template/final.html');
-            echo $final;*/
-            header('Location: final.html');
+            showTemplate(__DIR__ . '/template/final.html');
         }
     } else 
         denied();
