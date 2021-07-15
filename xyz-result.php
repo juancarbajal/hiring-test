@@ -2,6 +2,8 @@
 /*Cambiar nombre a este archivo */
  $db = new SQLite3(__DIR__ . '/data/hiring.sdb');
  $rows = $db->query('select p.id, p.name, p.email, pr.person_id, pr.start_time, pr.end_time, pr.response from person p left join person_response pr on p.id = pr.person_id');
+
+ //$exam = $db->queryOne('select * from exam where id =1 limit 1');
 ?>
 <style type="text/css">
     table, th, td {
